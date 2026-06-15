@@ -51,7 +51,7 @@ compose = [
   "core/essentials",
   "platform/macos",
   "shell/bash",
-  "role/dev",
+  "role/dev-macos",
 ]
 
 # Overrides applied after all fragments
@@ -73,7 +73,7 @@ email = "you@example.com"
 | **gpu** | `amd`, `nvidia`, `intel` | GPU drivers, Vulkan, hardware acceleration (Linux only) |
 | **audio** | `pipewire`, `pulseaudio` | Audio backend (Linux only) |
 | **shell** | `bash`, `zsh`, `fish` | Default shell, completions, history, PATH setup |
-| **role** | `dev`, `gaming`, `server`, `edge` | Use-case packages and services |
+| **role** | `dev-macos`, `dev`, `gaming`, `server`, `edge` | Use-case packages and services; `dev-macos` is the macOS workstation role, `dev` is Linux-only |
 
 ## Merge rules
 
@@ -92,11 +92,11 @@ Fragments and overlays are merged in order. The rules:
 Profiles can extend other profiles across repos. The parent is applied first, then the child's sections override.
 
 ```
-cwilson613/nex-profiles          (fragments or flat profile)
+styrene-lab/nex-profiles      (public fragments and mac-dev base)
     │
     │  extends
     ▼
-cwilson613/nex-personal          (private: SSH keys, kubeconfig, work aliases)
+your-user/private-profile      (private: SSH keys, kubeconfig, work aliases)
 ```
 
 `extends` and `compose` work together. If a profile has both, resolution order is:
@@ -154,7 +154,7 @@ Public profiles contain non-sensitive config only. Private config (kubeconfig pa
 ```toml
 # Private overlay (your-user/your-private-profile)
 [meta]
-extends = "cwilson613/nex-profiles"
+extends = "styrene-lab/nex-profiles"
 
 [shell.aliases]
 clod = "claude --dangerously-skip-permissions"

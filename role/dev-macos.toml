@@ -1,0 +1,153 @@
+# role/dev-macos — macOS developer workstation
+#
+# Developer tools that are valid on macOS/nix-darwin. Linux-specific container
+# services and debugging tools belong in role/dev or Linux platform fragments.
+
+[fragment]
+schema      = "io.styrene.nex.profile-fragment.v1"
+id          = "role/dev-macos"
+name        = "dev-macos"
+version     = "0.1.0"
+description = "macOS developer workstation — language tools, editors, containers, cloud and Kubernetes CLIs"
+category    = "role"
+platforms   = ["macos"]
+visibility  = "public"
+
+[packages]
+nix = [
+  # Terminal/session
+  "tmux",
+  "btop",
+  "watch",
+  "asciinema",
+
+  # Editors and workflow
+  "neovim",
+  "just",
+  "gh",
+  "jj",
+  "cmake",
+  "direnv",
+  "shellcheck",
+  "nixfmt-rfc-style",
+  "file",
+  "openssl",
+
+  # Language/toolchains
+  "go",
+  "nodejs",
+  "pnpm",
+  "uv",
+  "pipx",
+  "protobuf",
+  "nasm",
+  "zig",
+  "d2",
+
+  # Cloud and infra
+  "awscli2",
+  "ansible",
+  "opentofu",
+  "sops",
+  "vault",
+  "crane",
+
+  # Networking
+  "nmap",
+  "openssh",
+  "mosquitto",
+  "mqttui",
+  "speedtest-cli",
+  "i2pd",
+  "whois",
+  "wakeonlan",
+  "sshpass",
+
+  # Documents and media
+  "pandoc",
+  "ffmpeg",
+  "poppler",
+  "mdbook",
+  "zola",
+
+  # Kubernetes
+  "kubectl",
+  "kubernetes-helm",
+  "kubectx",
+  "kind",
+  "krew",
+  "clusterctl",
+  "argocd",
+  "fluxcd",
+  "talosctl",
+
+  # Hardware/security
+  "gnupg",
+  "yubikey-manager",
+  "libfido2",
+  "pam_u2f",
+]
+
+brews = [
+  "rustup",
+  "esptool",
+  "python@3.11",
+  "python@3.12",
+  "python@3.14",
+  "qemu",
+  "podman",
+  "ollama",
+  "weasyprint",
+]
+
+casks = [
+  "beeper",
+  "brave-browser",
+  "claude",
+  "claude-code",
+  "docker",
+  "drawio",
+  "firefox",
+  "iterm2",
+  "jiggler",
+  "kitty",
+  "libreoffice",
+  "obsidian",
+  "podman-desktop",
+  "spotify",
+  "swama",
+  "visual-studio-code",
+  "vlc",
+  "wezterm",
+]
+
+taps = [
+  "hashicorp/tap",
+  "fluxcd/tap",
+  "styrene-lab/tap",
+]
+
+[shell.aliases]
+k   = "kubectl"
+g   = "git"
+gs  = "git status"
+gd  = "git diff"
+gl  = "git log --oneline -20"
+
+[shell.env]
+LANG = "en_US.UTF-8"
+EDITOR = "nvim"
+HISTTIMEFORMAT = "%F %T - "
+
+[kitty]
+font = "IBM Plex Mono"
+font_size = 13.0
+theme = "alpharius"
+window_padding = 8
+scrollback_lines = 10000
+macos_option_as_alt = true
+macos_quit_when_last_window_closed = true
+
+[macos.fonts]
+nerd = ["jetbrains-mono"]
+families = ["ibm-plex"]

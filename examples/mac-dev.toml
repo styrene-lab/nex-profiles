@@ -1,9 +1,10 @@
 # Example: Mac developer workstation (composed profile)
 #
-# This is what you get when you compose:
-#   core/essentials + platform/macos + shell/bash + role/dev
+# This mirrors the repo-level styrene-lab/nex-profiles profile:
+#   core/essentials + platform/macos + shell/bash + role/dev-macos
 #
-# Use this as a reference for building your own profile.
+# Use this as a reference for building your own public Mac base. Put private
+# identity, SSH, kubeconfig, and personal Dock/browser preferences in an overlay.
 
 [meta]
 name        = "mac-dev"
@@ -12,141 +13,13 @@ compose = [
   "core/essentials",
   "platform/macos",
   "shell/bash",
-  "role/dev",
+  "role/dev-macos",
 ]
 
-# ─── Packages ────────────────────────────────────────────────────────────
-
-[packages]
-nix = [
-  "bash",
-  "kitty",
-  "firefox",
-  "ripgrep",
-  "fd",
-  "eza",
-  "bat",
-  "jq",
-  "yq",
-  "curl",
-  "wget",
-  "htop",
-  "git",
-  "vim",
-  "unzip",
-  "gzip",
-  "gnused",
-  "gawk",
-  "coreutils",
-  "findutils",
-  "tree",
-]
-brews = []
-casks = []
-
-# ─── Shell ───────────────────────────────────────────────────────────────
-
-[shell]
-default = "bash"
-
-[shell.aliases]
-ls  = "eza"
-ll  = "eza -la"
-la  = "eza -a"
-lt  = "eza --tree"
-cat = "bat"
-
-# ─── Git ─────────────────────────────────────────────────────────────────
+# Inline sections here are intentionally minimal. The fragments above own the
+# reusable behavior; overlays should provide person- or machine-specific values.
 
 [git]
-default_branch         = "main"
-pull_rebase            = true
-push_auto_setup_remote = true
-
-# ─── macOS System Defaults ───────────────────────────────────────────────
-# Maps to `defaults write` domains. nex translates these into the
-# appropriate nix-darwin system.defaults or raw defaults-write commands.
-
-[macos]
-dark_mode       = true
-default_browser = "firefox"
-
-# ── Dock ──────────────────────────────────────────────────────────────
-[macos.dock]
-autohide             = true
-minimize_to_app      = true
-show_recents         = false
-favorites = [
-  "Finder",
-  "Firefox",
-  "kitty",
-  "System Settings",
-]
-
-# ── Keyboard ──────────────────────────────────────────────────────────
-[macos.keyboard]
-key_repeat_rate      = 2        # fastest (lower = faster, 2 is near-min)
-repeat_delay         = 15       # shortest delay before repeat kicks in
-auto_correct         = false
-smart_quotes         = false
-smart_dashes         = false
-auto_capitalize      = false
-period_with_double_space = false
-full_keyboard_access = true     # tab through all UI controls
-
-# ── Trackpad ──────────────────────────────────────────────────────────
-[macos.trackpad]
-tap_to_click     = true
-natural_scrolling = true
-
-# ── Finder ────────────────────────────────────────────────────────────
-[macos.finder]
-show_extensions         = true
-show_hidden_files       = true
-show_path_bar           = true
-show_status_bar         = true
-default_view            = "list"
-search_scope            = "current_folder"
-new_window_target       = "home"
-warn_on_extension_change = false
-warn_on_empty_trash      = false
-
-# ── Screenshots & Recordings ─────────────────────────────────────────
-[macos.screenshots]
-save_location   = "~/Screenshots"
-disable_shadow  = true
-
-[macos.recordings]
-save_location   = "~/Screenshots"
-
-# ── Security / Auth ──────────────────────────────────────────────────
-[macos.security]
-touch_id_sudo            = true    # use TouchID for sudo prompts
-screen_lock_delay        = 0       # immediate — but TouchID makes unlock instant
-
-# ── Dialogs ───────────────────────────────────────────────────────────
-[macos.dialogs]
-expand_save_panel        = true
-expand_print_panel       = true
-disable_quarantine_dialog = true   # no "are you sure you want to open?"
-save_to_disk_by_default  = true    # not iCloud
-
-# ── Filesystem ────────────────────────────────────────────────────────
-[macos.filesystem]
-no_ds_store_network = true
-no_ds_store_usb     = true
-
-# ── Power / Display ──────────────────────────────────────────────────
-[macos.power]
-display_sleep_minutes    = 45      # prevent burn-in, but generous
-system_sleep             = "never" # long-running processes, don't hibernate
-hibernate_mode           = "never"
-
-# ── Bluetooth ─────────────────────────────────────────────────────────
-[macos.bluetooth]
-enabled = true
-
-# ── Mission Control ──────────────────────────────────────────────────
-[macos.mission_control]
-enabled     = false
-hot_corners = false
+# Override these in your private overlay before committing real work.
+name  = "Your Name"
+email = "you@example.com"

@@ -1,141 +1,19 @@
 # nex profile — https://nex.styrene.io
+# Canonical public Mac developer composition.
+#
 # Apply this profile to a new Mac:
 #   nex init
-#   nex profile apply cwilson613/nex-profiles
+#   nex profile apply styrene-lab/nex-profiles
+#
+# Private machine/person-specific config should live in an overlay such as
+# cwilson613/nex-personal, not in this public base.
 
 [meta]
-name = "cwilson"
-description = "Dev workstation — mesh networking, k8s, Rust/Go/Python"
-
-# ─── Nix Packages ──────────────────────────────────────────────────────────
-
-[packages]
-nix = [
-  # Shell & terminal
-  "bash", "zsh", "zsh-syntax-highlighting", "tmux", "btop", "eza",
-  "ripgrep", "jq", "yq-go", "tree", "dos2unix", "wget", "p7zip",
-  "watch", "asciinema",
-
-  # Dev tools
-  "git", "gh", "jj", "neovim", "vim", "just", "cmake",
-  "go", "nodejs", "pnpm", "uv", "pipx",
-  "protobuf", "nasm", "zig", "d2",
-
-  # Cloud & infra
-  "awscli2", "ansible", "opentofu", "sops", "vault",
-
-  # Networking
-  "nmap", "openssh", "mosquitto", "mqttui", "speedtest-cli",
-  "i2pd", "whois", "wakeonlan", "sshpass",
-
-  # Documents & media
-  "pandoc", "ffmpeg", "poppler", "mdbook", "zola",
-
-  # Misc
-  "gnupg", "crane",
-
-  # Kubernetes
-  "kubectl", "kubernetes-helm", "kubectx", "kind", "krew",
-  "clusterctl", "argocd", "fluxcd", "talosctl",
-
-  # YubiKey
-  "yubikey-manager", "libfido2", "pam_u2f",
+name = "mac-dev"
+description = "Mac developer workstation — composed from reusable Styrene fragments"
+compose = [
+  "core/essentials",
+  "platform/macos",
+  "shell/bash",
+  "role/dev-macos",
 ]
-
-brews = [
-  "rustup", "esptool",
-  "python@3.11", "python@3.12", "python@3.14",
-  "qemu", "podman", "ollama", "weasyprint",
-]
-
-casks = [
-  "beeper", "brave-browser", "claude", "claude-code",
-  "docker", "drawio", "firefox", "iterm2", "jiggler",
-  "kitty", "libreoffice", "obsidian", "podman-desktop",
-  "spotify", "swama", "visual-studio-code", "vlc", "wezterm",
-]
-
-taps = [
-  "hashicorp/tap", "fluxcd/tap", "styrene-lab/tap",
-]
-
-# ─── Kitty ─────────────────────────────────────────────────────────────────
-# Files in kitty/ are copied to ~/.config/kitty/
-
-[kitty]
-font = "IBM Plex Mono"
-font_size = 13.0
-theme = "alpharius"
-window_padding = 8
-scrollback_lines = 10000
-macos_option_as_alt = true
-macos_quit_when_last_window_closed = true
-
-# ─── Shell ─────────────────────────────────────────────────────────────────
-
-[shell]
-default = "bash"
-
-# Login shell — sourced once by .bash_profile
-profileExtra = """
-# Homebrew (macOS — must come before nix so nix PATH wins)
-if [ -f /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
-# Cargo/Rust
-[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-"""
-
-# Interactive shell — sourced by .bashrc
-initExtra = """
-# Pipefail for safer scripting
-set -o pipefail
-
-# Optional tools — add to PATH only if installed
-[ -d "$HOME/.lmstudio/bin" ] && export PATH="$PATH:$HOME/.lmstudio/bin"
-"""
-
-[shell.aliases]
-ls = "eza --icons --grid --group-directories-first"
-
-[shell.env]
-LANG = "en_US.UTF-8"
-EDITOR = "nvim"
-HISTTIMEFORMAT = "%F %T - "
-HISTCONTROL = "ignoreboth:erasedups"
-HISTSIZE = "50000"
-HISTFILESIZE = "50000"
-
-# ─── Git ───────────────────────────────────────────────────────────────────
-
-[git]
-name = "Chris"
-email = "72043878+cwilson613@users.noreply.github.com"
-default_branch = "main"
-pull_rebase = true
-push_auto_setup_remote = true
-
-# ─── macOS Preferences ────────────────────────────────────────────────────
-
-[macos]
-show_all_extensions = true
-show_hidden_files = true
-auto_capitalize = false
-auto_correct = false
-natural_scroll = false
-tap_to_click = true
-three_finger_drag = true
-dock_autohide = true
-dock_show_recents = false
-
-[macos.fonts]
-nerd = ["jetbrains-mono"]
-families = ["ibm-plex"]
-
-# ─── Security ──────────────────────────────────────────────────────────────
-
-[security]
-touchid_sudo = true
