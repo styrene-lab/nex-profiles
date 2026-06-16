@@ -1,15 +1,15 @@
 # platform/macos — macOS system defaults
 #
-# Opinionated but mainstream. Dark mode, clean dock, fast keyboard,
-# TouchID everywhere, no iCloud nags. Desktop-agnostic since macOS
-# only has one desktop environment.
+# Opinionated but mainstream defaults using fields implemented by Nex 0.25.x.
+# Keep this fragment aligned with `src/ops/profile.rs::ProfileMacos` in Nex;
+# unknown TOML keys are ignored by serde and create false confidence.
 
 [fragment]
 schema      = "io.styrene.nex.profile-fragment.v1"
 id          = "platform/macos"
 name        = "macos"
-version     = "0.1.0"
-description = "macOS system defaults — keyboard, trackpad, Finder, dock, power, security"
+version     = "0.1.1"
+description = "macOS system defaults — keyboard, trackpad, Finder, dock, appearance"
 category    = "platform"
 platforms   = ["macos"]
 visibility  = "public"
@@ -21,90 +21,55 @@ nix = [
 brews = []
 casks = []
 
+# ── Implemented top-level macOS defaults ─────────────────────────────────
+[macos]
+show_all_extensions = true
+show_hidden_files   = true
+auto_capitalize     = false
+auto_correct        = false
+natural_scroll      = true
+tap_to_click        = true
+three_finger_drag   = true
+dock_autohide       = true
+dock_show_recents   = false
+
 # ── Dock ──────────────────────────────────────────────────────────────
 [macos.dock]
-autohide        = true
-minimize_to_app = true
-show_recents    = false
-favorites = [
+persistent_apps = [
   "Finder",
   "Firefox",
   "kitty",
   "System Settings",
 ]
 
-# ── Keyboard ──────────────────────────────────────────────────────────
-[macos.keyboard]
-key_repeat_rate          = 2
-repeat_delay             = 15
-auto_correct             = false
-smart_quotes             = false
-smart_dashes             = false
-auto_capitalize          = false
-period_with_double_space = false
-full_keyboard_access     = true
-
-# ── Trackpad ──────────────────────────────────────────────────────────
-[macos.trackpad]
-tap_to_click      = true
-natural_scrolling = true
+# ── Input ─────────────────────────────────────────────────────────────
+[macos.input]
+key_repeat         = 2
+initial_key_repeat = 15
+press_and_hold     = false
 
 # ── Finder ────────────────────────────────────────────────────────────
 [macos.finder]
 show_extensions          = true
-show_hidden_files        = true
 show_path_bar            = true
 show_status_bar          = true
 default_view             = "list"
-search_scope             = "current_folder"
-new_window_target        = "home"
+search_scope             = "current"
 warn_on_extension_change = false
-warn_on_empty_trash      = false
 
-# ── Screenshots & Recordings ─────────────────────────────────────────
+# ── Screenshots ───────────────────────────────────────────────────────
 [macos.screenshots]
-save_location  = "~/Screenshots"
+location       = "~/Screenshots"
 disable_shadow = true
 
-[macos.recordings]
-save_location = "~/Screenshots"
+# ── Appearance ────────────────────────────────────────────────────────
+[macos.appearance]
+dark_mode         = true
+sidebar_icon_size = 2
 
 # ── Security / Auth ──────────────────────────────────────────────────
-[macos.security]
-touch_id_sudo     = true
-screen_lock_delay = 0
-
-# ── Dialogs ──────────────────────────────────────────────────────────
-[macos.dialogs]
-expand_save_panel         = true
-expand_print_panel        = true
-disable_quarantine_dialog = true
-save_to_disk_by_default   = true
-
-# ── Filesystem ────────────────────────────────────────────────────────
-[macos.filesystem]
-no_ds_store_network = true
-no_ds_store_usb     = true
-
-# ── Power / Display ──────────────────────────────────────────────────
-[macos.power]
-display_sleep_minutes = 45
-system_sleep          = "never"
-hibernate_mode        = "never"
-
-# ── Appearance ────────────────────────────────────────────────────────
-[macos]
-dark_mode       = true
-default_browser = "firefox"
-
-# ── Bluetooth ─────────────────────────────────────────────────────────
-[macos.bluetooth]
-enabled = true
-
-# ── Mission Control ──────────────────────────────────────────────────
-[macos.mission_control]
-enabled     = false
-hot_corners = false
+[security]
+touchid_sudo = true
 
 [fragment.safety]
 mutates_system_services = true
